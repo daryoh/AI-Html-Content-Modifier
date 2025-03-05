@@ -1,6 +1,6 @@
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerUi from "swagger-ui-express";
-import { Express } from "express";
+import { Express, Request, Response, NextFunction } from "express";
 
 const swaggerOptions = {
   definition: {
@@ -11,12 +11,7 @@ const swaggerOptions = {
       description:
         "API that modifies HTML content and generates AI-powered images.",
     },
-    servers: [
-      {
-        url: "http://localhost:3000",
-        description: "Local server",
-      },
-    ],
+    servers: [],
     components: {
       schemas: {
         ProcessHtmlRequest: {
@@ -52,12 +47,19 @@ const swaggerOptions = {
       },
     },
   },
-  apis: ["./src/controllers/*.ts"], // Point to route files where docs are defined
+  apis: ["./src/controllers/*.ts"],
 };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
+const swaggerDocs = swaggerJsDoc(swaggerOptions) as { servers?: { url: string; description: string }[] };
 
 export function setupSwagger(app: Express) {
-  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-  console.log("📄 Swagger Docs available at http://localhost:3000/api-docs");
-}
+    app.use("/api-docs", swaggerUi.serve, (req: Request, res: Response, next: NextFunction) => {
+      const serverUrl = `${req.protocol}://${req.get("host")}`;
+      
+    //   swaggerDocs.servers = [{ url: serverUrl, description: "Current Server" }];
+      
+      return swaggerUi.setup(swaggerDocs)(req, res, next);
+    });
+  
+    console.log("📄 Swagger Docs will be available at /api-docs");
+  }

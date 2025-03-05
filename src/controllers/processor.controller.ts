@@ -5,6 +5,7 @@ import { processContent } from "../services";
  * @swagger
  * /process-content:
  *   post:
+ *     tags: [Processor-Routes]
  *     summary: Process HTML content
  *     description: Rewrites the text and modifies images in the provided HTML content based on the site name and keywords.
  *     requestBody:
