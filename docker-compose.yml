@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-html-processor
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+      - OPENAI_API_KEY=${OPENAI_API_KEY} # Pass the OpenAI API key from the host environment
+    volumes:
+      - .:/app
+      - /app/node_modules # Avoid overwriting node_modules in the container
