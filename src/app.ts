@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 setupSwagger(app);
 
-app.post('/process-content', processContentController);
+app.post('/api/process-content', processContentController);
 
 
 app.listen(PORT, () => {
