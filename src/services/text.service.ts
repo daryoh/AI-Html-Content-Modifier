@@ -1,6 +1,4 @@
 import axios from 'axios';
-// import dotenv from 'dotenv';
-// dotenv.config();
 
 export const rewriteText = async (text: string, siteName: string, keywords: string[]): Promise<string> => {
     try {

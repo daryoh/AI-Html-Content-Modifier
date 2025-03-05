@@ -1,4 +1,3 @@
-import axios from "axios";
 import * as cheerio from "cheerio";
 import { rewriteText, generateImage } from "./index";
 import dotenv from "dotenv";

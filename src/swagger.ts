@@ -50,16 +50,18 @@ const swaggerOptions = {
   apis: ["./src/controllers/*.ts"],
 };
 
-const swaggerDocs = swaggerJsDoc(swaggerOptions) as { servers?: { url: string; description: string }[] };
+const swaggerDocs = swaggerJsDoc(swaggerOptions) as {
+  servers?: { url: string; description: string }[];
+};
 
 export function setupSwagger(app: Express) {
-    app.use("/api-docs", swaggerUi.serve, (req: Request, res: Response, next: NextFunction) => {
-      const serverUrl = `${req.protocol}://${req.get("host")}`;
-      
-    //   swaggerDocs.servers = [{ url: serverUrl, description: "Current Server" }];
-      
+  app.use(
+    "/api-docs",
+    swaggerUi.serve,
+    (req: Request, res: Response, next: NextFunction) => {
       return swaggerUi.setup(swaggerDocs)(req, res, next);
-    });
-  
-    console.log("📄 Swagger Docs will be available at /api-docs");
-  }
+    },
+  );
+
+  console.log("📄 Swagger Docs will be available at /api-docs");
+}
